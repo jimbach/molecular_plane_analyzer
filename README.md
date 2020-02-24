@@ -1,6 +1,6 @@
 # molecular_plane_analyzer
 Analyze the predominant orientation of molecular planes within a given morphology by simple specification of normal vectors within any MD format. 
-A workflow for all MD formats is presented.
+A workflow for all MD formats is presented. The input is handled via a command .fcf file containing the necessary parameters.
 
 run this program from the command line like:
 normal_vectors [input.xyz] [control_file.fcf]
