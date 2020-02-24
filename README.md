@@ -5,7 +5,7 @@ A workflow for all MD formats is presented.
 run this program from the command line like:
 normal_vectors [input.xyz] [control_file.fcf]
 
-where input.xyz is a file containing only your molecule of interest. you can generate this file for example by selections in VMD and printing only your molecule of interest into an .xyz file.
+where input.xyz is a file containing only your molecule of interest, where multiple frames are possible. you can generate this file for example by selections in VMD and printing only your molecule of interest into an .xyz file.
 if you have multiple molecules in your system you need to repeat this step for each molecule type you want to analyze
 
 if the .xyz file was generated the input paramters of the script need to be specified within the control file. this looks like, where comments start with a # :
@@ -34,10 +34,11 @@ the cross product is always perpendicular to the plane of the 2 vectors, so it i
 
 The sections DEFINECENTER and DEFINEREFERENCE may repeat for as many normal vectors you define within your molecule.
 
-If this has been prepared you are ready to run the script. This yields 3 files:
+If this has been prepared you are ready to run the script. This yields 4 files:
 normalvectors.xyz			#visualization file
 check_normalvectors.xyz		#verbose visualization file
 angle_dist_vectors.xyz		#file containing the center coordinates and the normal vectors
+sum_over_all_normalvectors.dat # file containing the sum over all normal vectors within each step
 
 Where (see the following .tcl script for arrow like visualization) :
 C-Atom : center of the molecule

@@ -145,7 +145,7 @@ def normal_vectors(ATOM_list,  frame, number_of_atoms, number_of_molecules, numb
 	ANGLEDIST_VECTORS_out=open("angle_dist_vectors.xyz",'a')
 	
 	
-	Vorzugsrichtung_out=open("Vorzugsrichtung.dat",'a')
+	Vorzugsrichtung_out=open("sum_over_all_normalvectors.dat",'a')
 	
 	
 	
