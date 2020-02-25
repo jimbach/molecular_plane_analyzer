@@ -6,7 +6,7 @@
 #
 ##############################
 
-import os,sys,numpy as np
+import os,sys,numpy as np, math
 
 #######   28.07.2013 - analysis_per_frame   ########
 ####### script to analyse .gro trajectories ########
@@ -90,10 +90,26 @@ def neighbour_direction(fromvectors, tovectors, boxX, boxY, boxZ, cutoff):
 	grid_tovectors_array = [[[[] for col in range(box_max_z)] for row in range(box_max_y)] for depth in range(box_max_x) ]
 	#generate neighbour list for the from vectors
 	for counter in range(0,len(fromvectors)/2):	#/2 because normal vectors and positions are saved
+		xlocation=fromvectors[2*counter][0]
+		ylocation=fromvectors[2*counter][1]
+		zlocation=fromvectors[2*counter][2]
+		#apply pbc
+		if xlocation>boxX
+			xlocation=xlocation-boxX
+		elif xlocation<0
+			xlocation=xlocation+boxX
+		if ylocation>boxY
+			ylocation=ylocation-boxY
+		elif ylocation<0
+			ylocation=ylocation+boxY
+		if zlocation>boxZ
+			zlocation=zlocation-boxZ
+		elif zlocation<0
+			zlocation=zlocation+boxZ
 		#calculate grid index
-		x = int(fromvectors[2*counter][0]/box_grid_size_x)
-		y = int(fromvectors[2*counter][1]/box_grid_size_y)
-		z = int(fromvectors[2*counter][2]/box_grid_size_z)
+		x = int(xlocation/box_grid_size_x)
+		y = int(ylocation/box_grid_size_y)
+		z = int(zlocation/box_grid_size_z)
 		#push it round the box
 		if x > box_grid_size_x: x = x - box_max_x
 		if y > box_grid_size_y: y = y - box_max_y
@@ -108,10 +124,27 @@ def neighbour_direction(fromvectors, tovectors, boxX, boxY, boxZ, cutoff):
 		grid_fromvectors_array[x][y][z].append(2*counter)
 	#generate neighbour list for the to vectors
 	for counter in range(0,len(tovectors)/2):	#/2 because normal vectors and positions are saved
+		xlocation=tovectors[2*counter][0]
+		ylocation=tovectors[2*counter][1]
+		zlocation=tovectors[2*counter][2]
+		#apply pbc
+		if xlocation>boxX
+			xlocation=xlocation-boxX
+		elif xlocation<0
+			xlocation=xlocation+boxX
+		if ylocation>boxY
+			ylocation=ylocation-boxY
+		elif ylocation<0
+			ylocation=ylocation+boxY
+		if zlocation>boxZ
+			zlocation=zlocation-boxZ
+		elif zlocation<0
+			zlocation=zlocation+boxZ
 		#calculate grid index
-		x = int(tovectors[2*counter][0]/box_grid_size_x)
-		y = int(tovectors[2*counter][1]/box_grid_size_y)
-		z = int(tovectors[2*counter][2]/box_grid_size_z)
+		x = int(xlocation/box_grid_size_x)
+		y = int(ylocation/box_grid_size_y)
+		z = int(zlocation/box_grid_size_z)
+		
 		#push it round the box
 		if x > box_grid_size_x: x = x - box_max_x
 		if y > box_grid_size_y: y = y - box_max_y
