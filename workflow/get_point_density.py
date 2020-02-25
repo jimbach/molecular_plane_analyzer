@@ -40,7 +40,7 @@ while 1:
 print 'found '+str(i_abs)+' data points'
 if omitted>0:
 	print 'omitted '+str(omitted)+' data points because they were not in range'
-	print 'used '+str(i_abs-omitted)+' data points within range'
+	print 'used '+str(i_abs)+' data points within range'
 	print 'some data points were not in range and were omitted. this is normal behaviour. increase xrange/yrange if you dont want to see this message'
 
 #for i_x in range(100):
