@@ -79,4 +79,4 @@ set pm3d
 set xlabel 'distance [A]'
 set ylabel 'angle [Deg]'
 set view map
-splot 'distance_to_angle_density.dat' w l
+splot 'distance_to_angle_density.dat' w image
