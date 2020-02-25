@@ -77,7 +77,7 @@ def neighbour_direction(fromvectors, tovectors, boxX, boxY, boxZ, cutoff):
 	box_grid_size_z = cutoff
 	
 	#we cannot encounter distances bigger than this within this theory
-	maxdist=np.sqrt(cutoff**3)
+	maxdist=2.0*np.sqrt(3.0*cutoff**2)
 	
 	box_max_x =int(boxX/box_grid_size_x)
 	box_max_y =int(boxY/box_grid_size_y)
@@ -86,8 +86,8 @@ def neighbour_direction(fromvectors, tovectors, boxX, boxY, boxZ, cutoff):
 	print 'grid cells x: '+str(box_max_x)+' y: '+str(box_max_y)+' z: '+str(box_max_z) 
 	
 	vec_corr=open("distance_to_angle.dat",'a')
-	grid_fromvectors_array = [[[[] for col in range(box_max_x)] for row in range(box_max_y)] for depth in range(box_max_z) ]
-	grid_tovectors_array = [[[[] for col in range(box_max_x)] for row in range(box_max_y)] for depth in range(box_max_z) ]
+	grid_fromvectors_array = [[[[] for col in range(box_max_z)] for row in range(box_max_y)] for depth in range(box_max_x) ]
+	grid_tovectors_array = [[[[] for col in range(box_max_z)] for row in range(box_max_y)] for depth in range(box_max_x) ]
 	#generate neighbour list for the from vectors
 	for counter in range(0,len(fromvectors)/2):	#/2 because normal vectors and positions are saved
 		#calculate grid index
@@ -104,6 +104,7 @@ def neighbour_direction(fromvectors, tovectors, boxX, boxY, boxZ, cutoff):
 		#print x,y,z,fromvectors[2*counter]
 		#write to array
 		#append the indices of the normal vectors found in this grid cell into an array
+		#print x, y, z
 		grid_fromvectors_array[x][y][z].append(2*counter)
 	#generate neighbour list for the to vectors
 	for counter in range(0,len(tovectors)/2):	#/2 because normal vectors and positions are saved
@@ -157,8 +158,8 @@ def neighbour_direction(fromvectors, tovectors, boxX, boxY, boxZ, cutoff):
 										distance = np.sqrt(dx**2+dy**2+dz**2)
 										#omit self computation
 										if distance!=0:
-											if distance>maxdist:
-												print 'Error, too large distance computed, distance > sqrt(cutoff**3) not possible!'
+											#if distance>maxdist:
+											#	print 'Error, too large distance computed, '+str(distance)+' distance > 2*sqrt(3*cutoff**2) not possible! '+str(grid_fromvectors_array[i_help_x][i_help_y][i_help_z][fromvector_count])+' '+str(grid_tovectors_array[counter_x][counter_y][counter_z][tovector_count])
 											angle_corr = np.arccos(np.dot(normalvec1,normalvec2))*360/(2*np.pi)
 											vec_corr.write(str(grid_fromvectors_array[i_help_x][i_help_y][i_help_z][fromvector_count]) +'	'+str(grid_tovectors_array[counter_x][counter_y][counter_z][tovector_count]) +'	' + str(distance)+'	' + str(angle_corr)+  '\n')
 					
