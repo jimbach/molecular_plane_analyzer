@@ -22,6 +22,7 @@ grid_array = [[0 for col in range(int(sys.argv[8]))] for row in range(int(sys.ar
 grid_size_x = float(sys.argv[3])/float(sys.argv[7])
 grid_size_y = float(sys.argv[4])/float(sys.argv[8])
 i_abs = 0
+omitted=0
 
 while 1:
 	inPline = inP.readline()
@@ -31,9 +32,16 @@ while 1:
 		x = int((float(inPList[int(sys.argv[5])-1].replace('[','').replace(']','').replace(',',''))+float(sys.argv[9]) )/grid_size_x)
 		y = int((float(inPList[int(sys.argv[6])-1].replace('[','').replace(']','').replace(',',''))+float(sys.argv[10])) /grid_size_y)
 		grid_array[x][y] = grid_array[x][y] + 1
+		i_abs = i_abs + 1
 	except IndexError:
-		print 'error in inputfile, line: ' + str(i_abs + 1) + ' not in range or not a valid number!'
-	i_abs = i_abs + 1
+		#print 'error in inputfile, line: ' + str(i_abs + 1) + ' not in range or not a valid number!'
+		omitted=omitted+1
+
+print 'found '+str(i_abs)+' data points'
+if omitted>0:
+	print 'omitted '+str(omitted)+' data points because they were not in range'
+	print 'used '+str(i_abs-omitted)+' data points within range'
+	print 'some data points were not in range and were omitted. this is normal behaviour. increase xrange/yrange if you dont want to see this message'
 
 #for i_x in range(100):
 #	for i_y in range(100):
