@@ -72,9 +72,12 @@ referencelist=[]
 def neighbour_direction(fromvectors, tovectors, boxX, boxY, boxZ, cutoff):
 	
 	#sort the coordinates into a grid for fast neighbour searching
-	box_grid_size_x = cutoff
-	box_grid_size_y = cutoff
-	box_grid_size_z = cutoff
+	gridcells=min(int(math.ceil(boxX/cutoff)),int(math.ceil(boxY/cutoff)),int(math.ceil(boxZ/cutoff)))
+	
+	box_grid_size_x = boxX/gridcells
+	box_grid_size_y = boxY/gridcells
+	box_grid_size_z = boxZ/gridcells
+	
 	
 	#we cannot encounter distances bigger than this within this theory
 	maxdist=2.0*np.sqrt(3.0*cutoff**2)
@@ -94,17 +97,17 @@ def neighbour_direction(fromvectors, tovectors, boxX, boxY, boxZ, cutoff):
 		ylocation=fromvectors[2*counter][1]
 		zlocation=fromvectors[2*counter][2]
 		#apply pbc
-		if xlocation>boxX
+		if xlocation>boxX:
 			xlocation=xlocation-boxX
-		elif xlocation<0
+		elif xlocation<0:
 			xlocation=xlocation+boxX
-		if ylocation>boxY
+		if ylocation>boxY:
 			ylocation=ylocation-boxY
-		elif ylocation<0
+		elif ylocation<0:
 			ylocation=ylocation+boxY
-		if zlocation>boxZ
+		if zlocation>boxZ:
 			zlocation=zlocation-boxZ
-		elif zlocation<0
+		elif zlocation<0:
 			zlocation=zlocation+boxZ
 		#calculate grid index
 		x = int(xlocation/box_grid_size_x)
@@ -121,6 +124,7 @@ def neighbour_direction(fromvectors, tovectors, boxX, boxY, boxZ, cutoff):
 		#write to array
 		#append the indices of the normal vectors found in this grid cell into an array
 		#print x, y, z
+		#print xlocation, ylocation, zlocation
 		grid_fromvectors_array[x][y][z].append(2*counter)
 	#generate neighbour list for the to vectors
 	for counter in range(0,len(tovectors)/2):	#/2 because normal vectors and positions are saved
@@ -128,17 +132,17 @@ def neighbour_direction(fromvectors, tovectors, boxX, boxY, boxZ, cutoff):
 		ylocation=tovectors[2*counter][1]
 		zlocation=tovectors[2*counter][2]
 		#apply pbc
-		if xlocation>boxX
+		if xlocation>boxX:
 			xlocation=xlocation-boxX
-		elif xlocation<0
+		elif xlocation<0:
 			xlocation=xlocation+boxX
-		if ylocation>boxY
+		if ylocation>boxY:
 			ylocation=ylocation-boxY
-		elif ylocation<0
+		elif ylocation<0:
 			ylocation=ylocation+boxY
-		if zlocation>boxZ
+		if zlocation>boxZ:
 			zlocation=zlocation-boxZ
-		elif zlocation<0
+		elif zlocation<0:
 			zlocation=zlocation+boxZ
 		#calculate grid index
 		x = int(xlocation/box_grid_size_x)
