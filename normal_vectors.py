@@ -149,7 +149,7 @@ def normal_vectors(ATOM_list,  frame, number_of_atoms, number_of_molecules, numb
 	
 	
 	
-	NORMAL_VECTORS_check.write(str(  (number_of_vectors*(3 + int(len(referencelist))) )*number_of_molecules )+'\n')
+	NORMAL_VECTORS_check.write(str(  (number_of_vectors*(2 + int(len(referencelist))) )*number_of_molecules )+'\n')
 	NORMAL_VECTORS_check.write(str(frame)+'\n')
 	
 	NORMAL_VECTORS_out.write(str(   (number_of_vectors*2)*number_of_molecules )+'\n')
