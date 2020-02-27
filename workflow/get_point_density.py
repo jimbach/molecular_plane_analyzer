@@ -14,8 +14,15 @@ if 1==1:																									#check the input
 		print"[input.dat] [output.dat] [x_range] [y_range] [col_1] [col_2] [grid size x (int)] [grid size y (int)] [x shift] [y shift]"
 		print""
 		sys.exit(0)
+
+
+if sys.argv[1]==sys.argv[2]:
+	print 'Error, Input file and outpout file need to be different!'
+	sys.exit(0)
+
 inP = open(sys.argv[1])
 outP = open(sys.argv[2], 'w')
+
 
 #initialize grid array - it will contain the number of angles within this grid
 grid_array = [[0 for col in range(int(sys.argv[8]))] for row in range(int(sys.argv[7]))]

@@ -16,17 +16,17 @@ if 1==1:																									#check the input
 	NARGS=len(sys.argv)-1
 	THELP=['-h','-help']
 
-	if NARGS<2 or (NARGS>0 and sys.argv[1] in THELP):
+	if NARGS<7 or (NARGS>0 and sys.argv[1] in THELP):
 		print""
 		print"parameterexpected:",SCRIPT[len(SCRIPT)-1],
-		print"[vectors1.xyz] [vectors2.xyz] boxX boxY boxZ cutoff"
+		print"[vectors1.xyz] [vectors2.xyz] boxX boxY boxZ cutoff vectors_per_molecule"
 		print""
 		sys.exit(0)
 
-	if (sys.argv[1][-4:] != ".xyz") or (sys.argv[2][-4:] != ".xyz") or (NARGS>6):
+	if (sys.argv[1][-4:] != ".xyz") or (sys.argv[2][-4:] != ".xyz") or (NARGS>7):
 		print""
 		print" wrong input format"
-		print" expected: [vectors1.xyz] [vectors2.xyz] boxX boxY boxZ cutoff"
+		print" expected: [vectors1.xyz] [vectors2.xyz] boxX boxY boxZ cutoff vectors_per_molecule"
 		print""
 		sys.exit(0)
 
@@ -58,6 +58,7 @@ boxX=float(sys.argv[3])
 boxY=float(sys.argv[4])
 boxZ=float(sys.argv[5])
 cutoff=float(sys.argv[6])
+vectors_per_molecule=int(sys.argv[7])
 
 
 num_of_vectors=1
@@ -69,7 +70,7 @@ referencelist=[]
 
 	
 ######## Calculate angle between nearby DIPBI of C5 rings
-def neighbour_direction(fromvectors, tovectors, boxX, boxY, boxZ, cutoff):
+def neighbour_direction(fromvectors, tovectors, boxX, boxY, boxZ, cutoff,vectors_per_molecule):
 	
 	#sort the coordinates into a grid for fast neighbour searching
 	gridcells=min(int(math.ceil(boxX/cutoff)),int(math.ceil(boxY/cutoff)),int(math.ceil(boxZ/cutoff)))
@@ -183,22 +184,25 @@ def neighbour_direction(fromvectors, tovectors, boxX, boxY, boxZ, cutoff):
 									if i_help_z==box_max_z: i_help_z = 0
 									#print str(i_help_x)+'	'+str(i_help_y)+'	'+str(i_help_z)
 									for fromvector_count in range(0,len(grid_fromvectors_array[i_help_x][i_help_y][i_help_z])-1):
-										ortsvec1 = fromvectors[grid_fromvectors_array[i_help_x][i_help_y][i_help_z][fromvector_count]]
-										ortsvec2 = tovectors[grid_tovectors_array[counter_x][counter_y][counter_z][tovector_count]]
-										normalvec1 =fromvectors[grid_fromvectors_array[i_help_x][i_help_y][i_help_z][fromvector_count]+1]
-										normalvec2 =tovectors[grid_tovectors_array[counter_x][counter_y][counter_z][tovector_count]+1]
-										#print ortsvec1,ortsvec2,normalvec1,normalvec2
-										#minimum image convention
-										dx=min(abs(ortsvec1[0] - ortsvec2[0]),abs(ortsvec1[0] - ortsvec2[0]-boxX),abs(ortsvec1[0] - ortsvec2[0]+boxX))
-										dy=min(abs(ortsvec1[1] - ortsvec2[1]),abs(ortsvec1[1] - ortsvec2[1]-boxY),abs(ortsvec1[1] - ortsvec2[1]+boxY))
-										dz=min(abs(ortsvec1[2] - ortsvec2[2]),abs(ortsvec1[2] - ortsvec2[2]-boxZ),abs(ortsvec1[2] - ortsvec2[2]+boxZ))
-										distance = np.sqrt(dx**2+dy**2+dz**2)
-										#omit self computation
-										if distance!=0:
-											#if distance>maxdist:
-											#	print 'Error, too large distance computed, '+str(distance)+' distance > 2*sqrt(3*cutoff**2) not possible! '+str(grid_fromvectors_array[i_help_x][i_help_y][i_help_z][fromvector_count])+' '+str(grid_tovectors_array[counter_x][counter_y][counter_z][tovector_count])
-											angle_corr = np.arccos(np.dot(normalvec1,normalvec2))*360/(2*np.pi)
-											vec_corr.write(str(grid_fromvectors_array[i_help_x][i_help_y][i_help_z][fromvector_count]) +'	'+str(grid_tovectors_array[counter_x][counter_y][counter_z][tovector_count]) +'	' + str(distance)+'	' + str(angle_corr)+  '\n')
+										#only vectors not in self mol
+										if (int(grid_fromvectors_array[i_help_x][i_help_y][i_help_z][fromvector_count]/(2*vectors_per_molecule))!=int(grid_tovectors_array[counter_x][counter_y][counter_z][tovector_count]/(2*vectors_per_molecule))):
+											ortsvec1 = fromvectors[grid_fromvectors_array[i_help_x][i_help_y][i_help_z][fromvector_count]]
+											ortsvec2 = tovectors[grid_tovectors_array[counter_x][counter_y][counter_z][tovector_count]]
+											normalvec1 =fromvectors[grid_fromvectors_array[i_help_x][i_help_y][i_help_z][fromvector_count]+1]
+											normalvec2 =tovectors[grid_tovectors_array[counter_x][counter_y][counter_z][tovector_count]+1]
+											#print ortsvec1,ortsvec2,normalvec1,normalvec2
+											#minimum image convention
+										
+											dx=min(abs(ortsvec1[0] - ortsvec2[0]),abs(ortsvec1[0] - ortsvec2[0]-boxX),abs(ortsvec1[0] - ortsvec2[0]+boxX))
+											dy=min(abs(ortsvec1[1] - ortsvec2[1]),abs(ortsvec1[1] - ortsvec2[1]-boxY),abs(ortsvec1[1] - ortsvec2[1]+boxY))
+											dz=min(abs(ortsvec1[2] - ortsvec2[2]),abs(ortsvec1[2] - ortsvec2[2]-boxZ),abs(ortsvec1[2] - ortsvec2[2]+boxZ))
+											distance = np.sqrt(dx**2+dy**2+dz**2)
+											#omit self computation
+											if distance!=0:
+												#if distance>maxdist:
+												#	print 'Error, too large distance computed, '+str(distance)+' distance > 2*sqrt(3*cutoff**2) not possible! '+str(grid_fromvectors_array[i_help_x][i_help_y][i_help_z][fromvector_count])+' '+str(grid_tovectors_array[counter_x][counter_y][counter_z][tovector_count])
+												angle_corr = np.arccos(np.dot(normalvec1,normalvec2))*360/(2*np.pi)
+												vec_corr.write(str(grid_fromvectors_array[i_help_x][i_help_y][i_help_z][fromvector_count]) +'	'+str(grid_tovectors_array[counter_x][counter_y][counter_z][tovector_count]) +'	' + str(distance)+'	' + str(angle_corr)+  '\n')
 					
 								
 	vec_corr.close()	
@@ -252,7 +256,7 @@ while 1:
 			
 			count2=count2+1
 			
-		neighbour_direction(vectors1, vectors2, boxX, boxY, boxZ, cutoff)
+		neighbour_direction(vectors1, vectors2, boxX, boxY, boxZ, cutoff,vectors_per_molecule)
 		##### end of analyze part. please dont modify the following code
 		vectors1,vectors2 = [], []
 		ipoint = 0
