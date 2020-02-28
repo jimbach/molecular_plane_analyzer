@@ -56,8 +56,6 @@ If you are happy with the resulting normal vectors you can analyze their distrib
 
 vector_angle_to_distance.py vectors_from_which_to_compute.xyz vectors_to_which_to_compute.xyz boxX boxY boxZ cutoff
 
-If you specified more than 1 normal vector section in the generation of the normal vectors you can use the files vector_angle_to_distance_ only/without self and specify the number of normal vectors per molecule as the last input parameter after cutoff. This is applicable if vectors_from and vectors_to are the same file. "only" means only the normal vectors within the same molecule are considered during evaluation (needed if you want to analyze the relative orientation of groups to each other within molecules). "without" means only distances and angles to other molecules are considered. This is useful if you want to analyze the relative orientation of molecules to each other e.g. stacking. If you have only 1 normal vector defined per mol use the normal vector_angle_to_distance.py script.
-
 where the 2 input .xyz are the angle_dist_vectors.xyz outputtet by the normal_vector script. If you e.g. want to compute all vectors from pbi to p3ht generate a file containing only pbi and send it into normal_vectors, the resulting angle_dist_vectors.xyz is the input file which then needs to go as vectors_from_which_to_compute.xyz
 then generate a second .xyz file only containing p3ht and send it into normal_vectors. The resulting resulting angle_dist_vectors.xyz is the input file which then needs to go as vectors_to_which_to_compute.xyz
 
@@ -65,6 +63,8 @@ boxX/Y/Z are again the box vectors in ANGSTROM. The cutoff in ANGSTROM defines h
 
 If you want to analyze from the same to the same molecule use the identical angle_dist_vectors.xyz output file as input.
 If you want to analyze from different molecules to certain ones, generate proper .xyz input files for normal_vector, than concatenate all the angle_dist_vectors.xyz files you receive and enter them as vectors_to_which_to_compute.xyz
+
+If you specified more than 1 normal vector section in the generation of the normal vectors you can use the files vector_angle_to_distance_ only/without self and specify the number of normal vectors per molecule as the last input parameter after cutoff. This is applicable if vectors_from and vectors_to are the same file. "only" means only the normal vectors within the same molecule are considered during evaluation (needed if you want to analyze the relative orientation of groups to each other within molecules). "without" means only distances and angles to other molecules are considered. This is useful if you want to analyze the relative orientation of molecules to each other e.g. stacking. If you have only 1 normal vector defined per mol use the normal vector_angle_to_distance.py script.
 
 vector_angle_to_distance then generates a file containing the indices from the inputted xyz files followed by the distance and angle between normal vectors. this can be converted into a density plot by the script get_point_density.py as follows:
 
