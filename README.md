@@ -1,6 +1,11 @@
 # molecular_plane_analyzer
 Analyze the predominant orientation of molecular planes within a given morphology by simple specification of normal vectors within any MD format. 
-A workflow for all MD formats is presented. The input is handled via a command .fcf file containing the necessary parameters.
+A workflow for all MD formats is presented. 
+
+Cite as:
+J. Bachmann. (2020). Molecular Plane Analyzer:  https://github.com/jimbach/molecular_plane_analyzer, Accessed on: xx.xx.xxxx
+
+The input is handled via a command .fcf file containing the necessary parameters.
 
 run this program from the command line like:
 normal_vectors.py [input.xyz] [control_file.fcf]
