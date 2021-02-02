@@ -1,6 +1,6 @@
 # molecular_plane_analyzer
 Analyze the predominant orientation of molecular planes within a given morphology by simple specification of normal vectors within any MD format. 
-A workflow for all MD formats is presented. 
+A workflow for all MD formats is presented. See manual.pdf for a more detailed description.
 
 Cite as:
 J. Bachmann. (2020). Molecular Plane Analyzer:  https://github.com/jimbach/molecular_plane_analyzer, Accessed on: xx.xx.xxxx
