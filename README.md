@@ -52,7 +52,7 @@ H-Atom : normal vectors again centered at 0 to visually judge the predominant or
 N-Atom : reference atoms
 
 The first 2 files are for checking by visualization in vmd. Load normalvectors.xyz, set it as Top (little T in the VMD main menu) and then load the script draw_normalvectors_in_vmd.tcl
-if you now type: drawallnormalvectors into the VMD console all normal vectors will be displayed. You can load your initial geometry on top.
+if you now type: drawallvectors into the VMD console all normal vectors will be displayed. You can load your initial geometry on top.
 
 If you want even more checking with all reference vectors displayed use the check_normalvectors.xyz file and load it in VMD and set it as Top. Now load check_normalvectors_in_vmd.tcl
 if your now type: checkallvectors into the VMD console all reference vectors together with the normal vectors will be displayed.
